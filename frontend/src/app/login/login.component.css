@@ -1,0 +1,18 @@
+.form-container {
+  background-color: #f8f9fa;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.centered-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.centered-form-column {
+  flex: 0 0 50%;
+  max-width: 50%;
+}

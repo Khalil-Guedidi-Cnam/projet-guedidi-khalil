@@ -1,0 +1,80 @@
+<div class="centered-form">
+  <div class="centered-form-column">
+    <div class="form-container">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="container mt-5">
+        <div class="row">
+          <div class="col mb-3">
+            <label for="name" class="form-label">Nom:</label>
+            <input type="text" id="name" formControlName="name" class="form-control">
+            <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="text-danger">Nom est requis</div>
+          </div>
+
+          <div class="col mb-3">
+            <label for="firstName" class="form-label">Prénom:</label>
+            <input type="text" id="firstName" formControlName="firstName" class="form-control">
+            <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="text-danger">Prénom est requis</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="birthDate" class="form-label">Date de naissance:</label>
+          <input type="date" id="birthDate" formControlName="birthDate" class="form-control">
+          <div *ngIf="registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched" class="text-danger">Date de naissance est requise</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" id="email" formControlName="email" class="form-control">
+          <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger">Email est requis et doit être valide</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="streetAddress" class="form-label">Adresse:</label>
+          <input type="text" id="streetAddress" formControlName="streetAddress" class="form-control">
+          <div *ngIf="registerForm.get('streetAddress')?.invalid && registerForm.get('streetAddress')?.touched" class="text-danger">Adresse est requise</div>
+        </div>
+
+        <div class="row">
+          <div class="col mb-3">
+            <label for="postalCode" class="form-label">Code postal:</label>
+            <input type="text" id="postalCode" formControlName="postalCode" class="form-control">
+            <div *ngIf="registerForm.get('postalCode')?.invalid && registerForm.get('postalCode')?.touched" class="text-danger">Code postal est requis</div>
+          </div>
+
+          <div class="col mb-3">
+            <label for="city" class="form-label">Ville:</label>
+            <input type="text" id="city" formControlName="city" class="form-control">
+            <div *ngIf="registerForm.get('city')?.invalid && registerForm.get('city')?.touched" class="text-danger">Ville est requise</div>
+          </div>
+
+          <div class="col mb-3">
+            <label for="country" class="form-label">Pays:</label>
+            <input type="text" id="country" formControlName="country" class="form-control">
+            <div *ngIf="registerForm.get('country')?.invalid && registerForm.get('country')?.touched" class="text-danger">Pays est requis</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="login" class="form-label">Login:</label>
+          <input type="text" id="login" formControlName="login" class="form-control">
+          <div *ngIf="registerForm.get('login')?.invalid && registerForm.get('login')?.touched" class="text-danger">Login est requis</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe:</label>
+          <input type="password" id="password" formControlName="password" class="form-control">
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">Mot de passe est requis et doit avoir au moins 6 caractères</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirmer le mot de passe:</label>
+          <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control">
+          <div *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched" class="text-danger">La confirmation du mot de passe est requise</div>
+          <div *ngIf="registerForm.errors?.['notMatching'] && registerForm.get('confirmPassword')?.touched" class="text-danger">Les mots de passe ne correspondent pas</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Inscription</button>
+      </form>
+    </div>
+  </div>
+</div>
