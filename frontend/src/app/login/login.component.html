@@ -1,24 +1,24 @@
-<div class="centered-form">
-  <div class="centered-form-column">
-    <div class="form-container">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="container mt-5">
-        <div class="mb-3">
-          <label for="login" class="form-label">Login :</label>
-          <input type="text" id="login" formControlName="login" class="form-control">
-          <div *ngIf="loginForm.get('login')?.errors?.['required'] && loginForm.get('login')?.touched" class="text-danger">Login est requis</div>
-          <div *ngIf="loginForm.get('login')?.errors?.['login'] && loginForm.get('login')?.touched" class="text-danger">Login non valide</div>
-        </div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Connectez-vous !</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Identifiant</mat-label>
+        <input matInput placeholder="Entrez votre email" [formControl]="login" required>
+        <mat-error *ngIf="login.invalid">{{getEmailErrorMessage()}}</mat-error>
+      </mat-form-field>
 
-        <div class="mb-3">
-          <label for="password" class="form-label">Mot de passe:</label>
-          <input type="password" id="password" formControlName="password" class="form-control">
-          <div *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched" class="text-danger">Mot de passe est requis</div>
-        </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" [formControl]="password" placeholder="Entrez votre mot de passe" required>
+        <mat-error *ngIf="password.invalid">Le mot de passe est requis.</mat-error>
+      </mat-form-field>
 
-        <button type="submit" class="btn btn-primary">Connexion</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="login.invalid || password.invalid">Se connecter</button>
+      <a href="/register">Créer un compte</a>
+    </form>
 
-        <a routerLink="/register" class="btn btn-link">Créer un compte</a>
-      </form>
-    </div>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>
