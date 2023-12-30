@@ -5,6 +5,7 @@ import {RouterLink, RouterOutlet} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import {ApiService} from "../api/api.service";
 
 @Component({
   selector: 'app-login',
@@ -14,22 +15,23 @@ import {MatButtonModule} from "@angular/material/button";
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  login = new FormControl('', [Validators.required, Validators.email]);
+  login = new FormControl('', [Validators.required]);
   password = new FormControl('', Validators.required);
 
-  getEmailErrorMessage() {
-    if (this.login.hasError('required')) {
-      return 'Vous devez entrer une valeur.';
-    }
-
-    return this.login.hasError('email') ? 'Email non valide' : '';
-  }
+  constructor(private apiService: ApiService) {}
 
   onSubmit() {
     if (this.login.invalid || this.password.invalid) {
       return;
     }
 
-    console.log({ login: this.login.value, password: this.password.value });
+    this.apiService.login({ login: this.login.value, password: this.password.value }).subscribe({
+      next: () => {
+        console.log("Connection réussie !");
+      },
+      error: () => {
+        console.log("Connexion échouée !");
+      }
+    });
   }
 }

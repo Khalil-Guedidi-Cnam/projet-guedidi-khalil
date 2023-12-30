@@ -8,7 +8,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Identifiant</mat-label>
           <input matInput placeholder="Entrez votre email" [formControl]="login" required>
-          <mat-error *ngIf="login.invalid">{{getEmailErrorMessage()}}</mat-error>
+          <mat-error *ngIf="login.invalid">Vous devez entrer une valeur.</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
