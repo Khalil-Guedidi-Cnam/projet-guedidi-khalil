@@ -83,25 +83,26 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 	    $login = $body ['login'] ?? "";
 	    $pass = $body ['password'] ?? "";
 
-	    if (!preg_match("/[a-zA-Z0-9]{1,20}/",$login))   {
-		$err = true;
-	    }
-	    if (!preg_match("/[a-zA-Z0-9]{1,20}/",$pass))  {
-		$err=true;
-	    }
+ 	    if (!preg_match("/[a-zA-Z0-9]{1,20}/",$login))   {
+ 		    $err = true;
+ 	    }
+ 	    if (!preg_match("/[a-zA-Z0-9]{1,20}/",$pass))  {
+ 		    $err=true;
+ 	    }
+
 	    if (!$err) {
-		$utilisateurRepository = $entityManager->getRepository('Utilisateurs');
-		$utilisateur = $utilisateurRepository->findOneBy(array('login' => $login, 'password' => $pass));
-		if ($utilisateur and $login == $utilisateur->getLogin() and $pass == $utilisateur->getPassword()) {
-		    $response = addHeaders ($response);
-		    $response = createJwT ($response);
-		    $data = array('nom' => $utilisateur->getNom(), 'prenom' => $utilisateur->getPrenom());
-		    $response->getBody()->write(json_encode($data));
-		} else {          
-		    $response = $response->withStatus(403);
-		}
+		    $utilisateurRepository = $entityManager->getRepository('Utilisateurs');
+		    $utilisateur = $utilisateurRepository->findOneBy(array('login' => $login, 'password' => $pass));
+		    if ($utilisateur and $login == $utilisateur->getLogin() and $pass == $utilisateur->getPassword()) {
+		        $response = addHeaders ($response);
+		        $response = createJwT ($response);
+		        $data = array('nom' => $utilisateur->getNom(), 'prenom' => $utilisateur->getPrenom());
+		        $response->getBody()->write(json_encode($data));
+		    } else {
+		        $response = $response->withStatus(403);
+		    }
 	    } else {
-		$response = $response->withStatus(500);
+		    $response = $response->withStatus(500);
 	    }
 
 	    return addHeaders ($response);
