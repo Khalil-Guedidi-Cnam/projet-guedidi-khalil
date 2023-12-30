@@ -1,24 +1,26 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Connectez-vous !</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="fill">
-        <mat-label>Identifiant</mat-label>
-        <input matInput placeholder="Entrez votre email" [formControl]="login" required>
-        <mat-error *ngIf="login.invalid">{{getEmailErrorMessage()}}</mat-error>
-      </mat-form-field>
+<main>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Connectez-vous !</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Identifiant</mat-label>
+          <input matInput placeholder="Entrez votre email" [formControl]="login" required>
+          <mat-error *ngIf="login.invalid">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Mot de passe</mat-label>
-        <input matInput type="password" [formControl]="password" placeholder="Entrez votre mot de passe" required>
-        <mat-error *ngIf="password.invalid">Le mot de passe est requis.</mat-error>
-      </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput type="password" [formControl]="password" placeholder="Entrez votre mot de passe" required>
+          <mat-error *ngIf="password.invalid">Le mot de passe est requis.</mat-error>
+        </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit" [disabled]="login.invalid || password.invalid">Se connecter</button>
-      <a href="/register">Créer un compte</a>
-    </form>
+        <button mat-raised-button color="primary" type="submit" [disabled]="login.invalid || password.invalid">Se connecter</button>
+        <a href="/register">Créer un compte</a>
+      </form>
 
-  </mat-card-content>
-</mat-card>
+    </mat-card-content>
+  </mat-card>
+</main>
