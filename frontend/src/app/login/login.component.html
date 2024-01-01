@@ -17,6 +17,7 @@
           <mat-error *ngIf="password.invalid">Le mot de passe est requis.</mat-error>
         </mat-form-field>
 
+        <mat-error *ngIf="errorMessage" class="connexionError">{{ errorMessage }}</mat-error>
         <button mat-raised-button color="primary" type="submit" [disabled]="login.invalid || password.invalid">Se connecter</button>
         <a href="/register">Créer un compte</a>
       </form>

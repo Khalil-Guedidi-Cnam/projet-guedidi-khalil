@@ -100,9 +100,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 		        $response->getBody()->write(json_encode($data));
 		    } else {
 		        $response = $response->withStatus(403);
+                $response->getBody()->write(json_encode(["message" => "Identifiant ou mot de passe incorrect."]));
 		    }
 	    } else {
 		    $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(["message" => "Identifiant ou mot de passe non valide"]));
 	    }
 
 	    return addHeaders ($response);

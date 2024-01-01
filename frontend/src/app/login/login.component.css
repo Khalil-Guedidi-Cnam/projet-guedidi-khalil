@@ -22,3 +22,7 @@ a {
   text-align: right;
   margin-top: 10px;
 }
+
+.connexionError {
+  margin-bottom: 15px;
+}

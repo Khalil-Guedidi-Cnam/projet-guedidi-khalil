@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl, FormsModule} from '@angular/forms';
 import {NgIf} from "@angular/common";
-import {RouterLink, RouterOutlet} from "@angular/router";
+import {Router, RouterLink, RouterOutlet} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
@@ -17,8 +17,9 @@ import {ApiService} from "../api/api.service";
 export class LoginComponent {
   login = new FormControl('', [Validators.required]);
   password = new FormControl('', Validators.required);
+  errorMessage: string = '';
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   onSubmit() {
     if (this.login.invalid || this.password.invalid) {
@@ -27,10 +28,10 @@ export class LoginComponent {
 
     this.apiService.login({ login: this.login.value, password: this.password.value }).subscribe({
       next: () => {
-        console.log("Connection réussie !");
+        this.router.navigate([''])
       },
-      error: () => {
-        console.log("Connexion échouée !");
+      error: (error) => {
+        this.errorMessage = error.message;
       }
     });
   }
