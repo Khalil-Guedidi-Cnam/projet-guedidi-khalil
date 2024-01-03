@@ -1,8 +1,5 @@
 .form-container {
-  background-color: #f8f9fa;
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .centered-form {
@@ -10,9 +7,38 @@
   justify-content: center;
   align-items: center;
   min-height: 80vh;
+  margin-top: 5vh;
 }
 
 .centered-form-column {
   flex: 0 0 50%;
   max-width: 50%;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+mat-card-title {
+  margin-bottom: 10px;
+}
+
+mat-form-field {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.halfWidthInput {
+  width: 50%;
+}
+
+.fullWidthInput {
+  width: 100%;
+}
+
+button {
+  align-self: end;
+  margin-left: auto;
+  margin-right: 10px;
 }

@@ -1,12 +1,25 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {environment} from "../../environments/environment";
-import {catchError, map, Observable, of, tap, throwError} from "rxjs";
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  tap,
+  throwError
+} from "rxjs";
+import {Product} from "../models/product";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  private searchQuerySubject = new Subject<string>();
   constructor(private http: HttpClient) {}
 
   login(credentials: { password: string | null; login: string | null }) {
@@ -21,6 +34,8 @@ export class ApiService {
         catchError(this.handleError)
       );
   }
+
+  signup(userInfo) {}
 
   private handleError(error: HttpErrorResponse) {
     const errorMessage = error.error.message || 'Une erreur inconnue est survenue.';
@@ -39,10 +54,25 @@ export class ApiService {
     sessionStorage.removeItem('jwt');
   }
 
-  getProducts(): Observable<any> {
-    const jwt = sessionStorage.getItem('jwt');
-    console.log(jwt)
-    const headers = new HttpHeaders({'Authorization': `${jwt}`});
-    return this.http.get(environment.backend.getProducts, { headers });
+  sendSearchQuery(query: string) {
+    this.searchQuerySubject.next(query);
   }
+
+  getProducts(): Observable<Product[]> {
+    const jwt = sessionStorage.getItem('jwt');
+    const headers = new HttpHeaders({'Authorization': `${jwt}`});
+
+    return this.searchQuerySubject.asObservable().pipe(
+      debounceTime(150),
+      distinctUntilChanged(),
+      switchMap(query => {
+        let params = new HttpParams();
+        if (query) {
+          params = params.append('name', query);
+        }
+        return this.http.get<Product[]>(environment.backend.getProducts, { headers, params });
+      })
+    );
+  }
+
 }

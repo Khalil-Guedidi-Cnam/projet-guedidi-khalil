@@ -2,11 +2,15 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import {RouterOutlet} from '@angular/router';
 import {NgIf} from "@angular/common";
+import {MatCardModule} from "@angular/material/card";
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterOutlet, NgIf],
+  imports: [ReactiveFormsModule, RouterOutlet, NgIf, MatCardModule, MatInputModule, MatDatepickerModule, MatButtonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -18,14 +22,13 @@ export class RegisterComponent {
       login: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-      name: ['', [Validators.required]],
-      firstName: ['', [Validators.required]],
-      birthDate: ['', [Validators.required]],
+      nom: ['', [Validators.required]],
+      prenom: ['', [Validators.required]],
+      sexe: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      streetAddress: ['', [Validators.required]],
-      postalCode: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      country: ['']
+      adresse: ['', [Validators.required]],
+      codepostal: ['', [Validators.required]],
+      ville: ['', [Validators.required]],
     }, { validator: this.matchPassword });
   }
 
@@ -40,7 +43,5 @@ export class RegisterComponent {
     if (this.registerForm.invalid) {
       return;
     }
-
-    console.log(this.registerForm.value);
   }
 }

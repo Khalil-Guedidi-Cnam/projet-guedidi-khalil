@@ -6,7 +6,11 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {NgForOf} from "@angular/common";
-import {Product} from "../classes/product";
+import {Product} from "../models/product";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-home',
@@ -16,13 +20,18 @@ import {Product} from "../classes/product";
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
-    NgForOf
+    NgForOf,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatIconModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
   products : Product[] = [];
+  searchQuery: string = '';
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit() {
@@ -33,7 +42,13 @@ export class HomeComponent implements OnInit {
 
     this.apiService.getProducts().subscribe(data => {
       this.products = data;
-    })
+    });
 
+    this.onSearchChange();
+
+  }
+
+  onSearchChange() {
+    this.apiService.sendSearchQuery(this.searchQuery);
   }
 }
