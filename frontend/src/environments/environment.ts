@@ -3,6 +3,7 @@ export const environment = {
   backend: {
     login: 'http://172.17.0.2/api/utilisateur/login',
     getUser: 'http://172.17.0.2/api/utilisateur',
-    getProducts: 'http://172.17.0.2/api/catalogue'
+    getProducts: 'http://172.17.0.2/api/catalogue',
+    register: 'http://172.17.0.2/api/utilisateur/register'
   }
 };

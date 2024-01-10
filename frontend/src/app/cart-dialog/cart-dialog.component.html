@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Panier</h2>
+<mat-dialog-content>
+  <mat-list *ngIf="(products$ | async)?.length; else noProducts">
+    <mat-list-item *ngFor="let product of products$ | async">
+      <h3 matListItemTitle>{{product.name}}</h3>
+      <p matListItemLine>Prix: {{product.price}} €</p>
+      <mat-icon matListItemIcon (click)="removeFromCart(product.id)" fontIcon="close"></mat-icon>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+<ng-template #noProducts>
+  <p>Votre panier est vide.</p>
+</ng-template>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Fermer</button>
+  <button mat-button (click)="buyAndClearCart()">Acheter</button>
+</mat-dialog-actions>
+

@@ -1,23 +1,27 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import {RouterOutlet} from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 import {NgIf} from "@angular/common";
 import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatButtonModule} from "@angular/material/button";
+import {MatSelectModule} from "@angular/material/select";
+import {ApiService} from "../api/api.service";
+import {User} from "../models/user";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterOutlet, NgIf, MatCardModule, MatInputModule, MatDatepickerModule, MatButtonModule],
+  imports: [ReactiveFormsModule, RouterOutlet, NgIf, MatCardModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatSelectModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  errorMessage: string = '';
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private apiService: ApiService) {
     this.registerForm = this.formBuilder.group({
       login: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -43,5 +47,27 @@ export class RegisterComponent {
     if (this.registerForm.invalid) {
       return;
     }
+
+    const utilisateur : User = {
+      nom: this.registerForm.get('nom')?.value,
+      prenom: this.registerForm.get('prenom')?.value,
+      email: this.registerForm.get('email')?.value,
+      telephone: this.registerForm.get('telephone')?.value,
+      adresse: this.registerForm.get('adresse')?.value,
+      codepostal: this.registerForm.get('codepostal')?.value,
+      ville: this.registerForm.get('ville')?.value,
+      sexe: this.registerForm.get('sexe')?.value,
+      login: this.registerForm.get('login')?.value,
+      password: this.registerForm.get('password')?.value
+    }
+
+    this.apiService.register(utilisateur).subscribe({
+      next: () => {
+        this.router.navigate([''])
+      },
+      error: (error) => {
+        this.errorMessage = error.message;
+      }
+    });
   }
 }

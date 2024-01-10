@@ -5,12 +5,13 @@ import {NavbarComponent} from "../navbar/navbar.component";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgOptimizedImage} from "@angular/common";
 import {Product} from "../models/product";
-import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
+import {AddToCart} from "../actions/cart.actions";
+import {Store} from "@ngxs/store";
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ import {MatIconModule} from "@angular/material/icon";
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    NgOptimizedImage
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -32,7 +34,7 @@ import {MatIconModule} from "@angular/material/icon";
 export class HomeComponent implements OnInit {
   products : Product[] = [];
   searchQuery: string = '';
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router, private store: Store) {}
 
   ngOnInit() {
     if (!this.apiService.isLoggedIn()) {
@@ -44,11 +46,15 @@ export class HomeComponent implements OnInit {
       this.products = data;
     });
 
-    this.onSearchChange();
+    this.onSearchChange()
 
   }
 
   onSearchChange() {
     this.apiService.sendSearchQuery(this.searchQuery);
+  }
+
+  addToCart(product: Product): void {
+    this.store.dispatch(new AddToCart(product));
   }
 }

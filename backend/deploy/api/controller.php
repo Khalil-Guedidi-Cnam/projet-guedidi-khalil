@@ -20,13 +20,16 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 	function  getSearchCalatogue (Request $request, Response $response, $args) {
 	    global $entityManager;
 
+        $queryParams = $request->getQueryParams();
+        $name = $queryParams['name'] ?? '';
+
         $query = $entityManager->getRepository('Produits')->createQueryBuilder('p');
 
-        if ($request->getQueryParam('name') && $request->getQueryParam('name') != '') {
-            $query->where('p.name LIKE :name')
-                ->setParameter('name', '%' . $request->getQueryParam('name') . '%');
+        if ($name !== '') {
+            $query->where('LOWER(p.name) LIKE LOWER(:name)')
+                ->setParameter('name', '%' . $name . '%');
             $products = $query->getQuery()->getResult();
-        } elseif ($request->getQueryParam('name') == '') {
+        } else {
             $products = $entityManager->getRepository('Produits')->findAll();
         }
 
@@ -36,7 +39,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             $data[] = [
                 "name" => $product->getName(),
                 "price" => $product->getPrice(),
-                "description" => $product->getDescription()
+                "description" => $product->getDescription(),
+                "image_url" => $product->getImageUrl()
             ];
         }
 
@@ -57,7 +61,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             $data[] = [
                 "name" => $product->getName(),
                 "price" => $product->getPrice(),
-                "description" => $product->getDescription()
+                "description" => $product->getDescription(),
+                "image_url" => $product->getImageUrl()
                 ];
         }
 	    
@@ -129,4 +134,44 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 	    return addHeaders ($response);
 	}
+
+
+    function postRegister(Request $request, Response $response, $args) {
+        global $entityManager;
+        $body = $request->getParsedBody();
+        $nom = $body['nom'] ?? "";
+        $prenom = $body['prenom'] ?? "";
+        $sexe = $body['sexe'] ?? "";
+        $email = $body['email'] ?? "";
+        $telephone = $body['telephone'] ?? "";
+        $adresse = $body['adresse'] ?? "";
+        $cp = $body['codepostal'] ?? "";
+        $ville = $body['ville'] ?? "";
+        $login = $body ['login'] ?? "";
+        $pass = $body ['password'] ?? "";
+
+        $utilisateur = new Utilisateurs;
+        $utilisateur->setNom($nom);
+        $utilisateur->setPrenom($prenom);
+        $utilisateur->setSexe($sexe);
+        $utilisateur->setEmail($email);
+        $utilisateur->setTelephone($telephone);
+        $utilisateur->setAdresse($adresse);
+        $utilisateur->setCodePostal($cp);
+        $utilisateur->setVille($ville);
+        $utilisateur->setLogin($login);
+        $utilisateur->setPassword($pass);
+
+        try {
+            $entityManager->persist($utilisateur);
+            $entityManager->flush();
+        } catch (Exception $e) {
+            $response = $response->withStatus(500);
+            $response->getBody()->write(json_encode(["message" => $e->getMessage()]));
+        }
+
+        $response = addHeaders ($response);
+        return addHeaders ($response);
+
+    }
 

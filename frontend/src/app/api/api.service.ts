@@ -14,6 +14,7 @@ import {
   throwError
 } from "rxjs";
 import {Product} from "../models/product";
+import {User} from "../models/user";
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,14 @@ export class ApiService {
       );
   }
 
-  signup(userInfo) {}
+  register(credentials: User) {
+    return this.http.post<any>(environment.backend.register, credentials, { observe: 'response' })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  //signup(userInfo) {}
 
   private handleError(error: HttpErrorResponse) {
     const errorMessage = error.error.message || 'Une erreur inconnue est survenue.';
@@ -70,7 +78,8 @@ export class ApiService {
         if (query) {
           params = params.append('name', query);
         }
-        return this.http.get<Product[]>(environment.backend.getProducts, { headers, params });
+        const url = environment.backend.getProducts + "/{filtre}";
+        return this.http.get<Product[]>(url, { headers, params });
       })
     );
   }

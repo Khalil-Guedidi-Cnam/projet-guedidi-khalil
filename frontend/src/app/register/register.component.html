@@ -4,69 +4,70 @@
       <mat-card-title>Créez votre compte</mat-card-title>
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-        <mat-form-field appearance="fill" class="halfWidthInput">
+        <mat-form-field appearance="outline" class="halfWidthInput">
           <mat-label>Nom</mat-label>
-          <input matInput formControlName="name">
-          <mat-error *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">Nom est requis</mat-error>
+          <input matInput formControlName="nom">
+          <mat-error *ngIf="registerForm.get('nom')?.invalid && registerForm.get('nom')?.touched">Nom est requis</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="halfWidthInput">
+        <mat-form-field appearance="outline" class="halfWidthInput">
           <mat-label>Prénom</mat-label>
-          <input matInput formControlName="firstName">
-          <mat-error *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">Prénom est requis</mat-error>
+          <input matInput formControlName="prenom">
+          <mat-error *ngIf="registerForm.get('prenom')?.invalid && registerForm.get('prenom')?.touched">Prénom est requis</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="fullWidthInput">
-          <mat-label>Date de naissance</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="birthDate">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched">Date de naissance est requise</mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="fullWidthInput">
+        <mat-form-field appearance="outline" class="fullWidthInput">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email">
           <mat-error *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">Email est requis et doit être valide</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="fullWidthInput">
+        <mat-form-field appearance="outline" class="fullWidthInput">
+          <mat-label>Téléphone</mat-label>
+          <input matInput formControlName="telephone">
+          <mat-error *ngIf="registerForm.get('telephone')?.invalid && registerForm.get('telephone')?.touched">Téléphone est requis et doit être valide</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="fullWidthInput">
           <mat-label>Adresse</mat-label>
-          <input matInput formControlName="streetAddress">
-          <mat-error *ngIf="registerForm.get('streetAddress')?.invalid && registerForm.get('streetAddress')?.touched">Adresse est requise</mat-error>
+          <input matInput formControlName="adresse">
+          <mat-error *ngIf="registerForm.get('adresse')?.invalid && registerForm.get('adresse')?.touched">Adresse est requise</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="halfWidthInput">
+        <mat-form-field appearance="outline" class="halfWidthInput">
           <mat-label>Code postal</mat-label>
-          <input matInput formControlName="postalCode">
-          <mat-error *ngIf="registerForm.get('postalCode')?.invalid && registerForm.get('postalCode')?.touched">Code postal est requis</mat-error>
+          <input matInput formControlName="codepostal">
+          <mat-error *ngIf="registerForm.get('codepostal')?.invalid && registerForm.get('codepostal')?.touched">Code postal est requis</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="halfWidthInput">
+        <mat-form-field appearance="outline" class="halfWidthInput">
           <mat-label>Ville</mat-label>
-          <input matInput formControlName="city">
-          <mat-error *ngIf="registerForm.get('city')?.invalid && registerForm.get('city')?.touched">Ville est requise</mat-error>
+          <input matInput formControlName="ville">
+          <mat-error *ngIf="registerForm.get('ville')?.invalid && registerForm.get('ville')?.touched">Ville est requise</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="fullWidthInput">
-          <mat-label>Pays</mat-label>
-          <input matInput formControlName="country">
-          <mat-error *ngIf="registerForm.get('country')?.invalid && registerForm.get('country')?.touched">Pays est requis</mat-error>
+        <mat-form-field appearance="outline" class="fullWidthInput">
+          <mat-label>Sexe</mat-label>
+          <mat-select formControlName="sexe">
+            <mat-option value="M">Homme</mat-option>
+            <mat-option value="F">Femme</mat-option>
+          </mat-select>
+          <mat-error *ngIf="registerForm.get('sexe')?.invalid && registerForm.get('sexe')?.touched">Sexe est requis</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="fullWidthInput">
+        <mat-form-field appearance="outline" class="fullWidthInput">
           <mat-label>Login</mat-label>
           <input matInput formControlName="login">
           <mat-error *ngIf="registerForm.get('login')?.invalid && registerForm.get('login')?.touched">Login est requis</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="fullWidthInput">
+        <mat-form-field appearance="outline" class="fullWidthInput">
           <mat-label>Mot de passe</mat-label>
           <input matInput type="password" formControlName="password">
           <mat-error *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">Mot de passe est requis et doit avoir au moins 6 caractères</mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="fullWidthInput">
+        <mat-form-field appearance="outline" class="fullWidthInput">
           <mat-label>Confirmer le mot de passe</mat-label>
           <input matInput type="password" formControlName="confirmPassword">
           <mat-error *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">La confirmation du mot de passe est requise</mat-error>
