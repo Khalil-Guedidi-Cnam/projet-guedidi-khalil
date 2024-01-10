@@ -1,9 +1,9 @@
 export const environment = {
-  production: false,
+  production: true,
   backend: {
-    login: 'http://172.17.0.2/api/utilisateur/login',
-    getUser: 'http://172.17.0.2/api/utilisateur',
-    getProducts: 'http://172.17.0.2/api/catalogue',
-    register: 'http://172.17.0.2/api/utilisateur/register'
+    login: 'https://projet-d7rt.onrender.com/api/utilisateur/login',
+    getUser: 'https://projet-d7rt.onrender.com/api/utilisateur',
+    getProducts: 'https://projet-d7rt.onrender.com/api/catalogue',
+    register: 'https://projet-d7rt.onrender.com/api/utilisateur/register'
   }
 };
