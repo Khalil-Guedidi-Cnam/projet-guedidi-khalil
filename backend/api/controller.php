@@ -140,6 +140,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
         global $entityManager;
 
         $err=false;
+        $message = "";
 
         $body = $request->getParsedBody();
         $nom = $body['nom'] ?? "";
@@ -155,30 +156,40 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
         if (!preg_match("/[a-zA-Z]{1,20}/",$nom))  {
             $err=true;
+            $message .= "Le nom ne doit contenir que des lettres et maximum 20 caractères. ";
         }
         if (!preg_match("/[a-zA-Z]{1,20}/",$prenom))  {
             $err=true;
+            $message .= "Le prénom ne doit contenir que des lettres et maximum 20 caractères. ";
         }
         if (!preg_match("/[a-zA-Z0-9.]@[a-zA-Z0-9.]{1,20}/",$email))  {
             $err=true;
+            $message .= "L'email ne doit contenir que 20 caractères maximum. ";
         }
         if (!preg_match("/[0-9]{10}/",$telephone))  {
             $err=true;
+            $message .= "L'email ne peut contenir que 10 chiffres. ";
+
         }
         if (!preg_match("/[a-zA-Z0-9 ]{1,50}/",$adresse))   {
             $err = true;
+            $message .= "L'adresse ne peux contenir que des lettres ou des chiffres. ";
         }
-        if (!preg_match("/[0-9]{50}/",$cp))   {
+        if (!preg_match("/[0-9]{5}/",$cp))   {
             $err = true;
+            $message .= "Le code postal ne peut contenir que 5 chiffres. ";
         }
         if (!preg_match("/[a-zA-Z]{1,20}/",$ville))  {
             $err=true;
+            $message .= "La ville ne peut contenir que des lettres. ";
         }
         if (!preg_match("/[a-zA-Z0-9]{1,20}/",$login))   {
             $err = true;
+            $message .= "Le login ne doit contenir que des lettres et des chiffres et maximum 20 caractères. ";
         }
         if (!preg_match("/[a-zA-Z0-9]{1,20}/",$pass))  {
             $err=true;
+            $message .= "Le mot de passe ne doit contenir que des lettres et des chiffres et maximum 20 caractères. ";
         }
 
         if (!$err) {
@@ -211,7 +222,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
             }
         } else {
             $response = $response->withStatus(500);
-            $response->getBody()->write(json_encode(["message" => "Attention, une des entrées est non valide."]));
+            $response->getBody()->write(json_encode(["message" => $message]));
         }
 
         $response = addHeaders ($response);
