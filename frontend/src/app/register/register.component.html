@@ -74,6 +74,7 @@
           <mat-error *ngIf="registerForm.errors?.['notMatching'] && registerForm.get('confirmPassword')?.touched">Les mots de passe ne correspondent pas</mat-error>
         </mat-form-field>
 
+        <mat-error *ngIf="errorMessage" class="connexionError">{{ errorMessage }}</mat-error>
         <button mat-raised-button color="primary" type="submit">Inscription</button>
       </form>
     </mat-card>

@@ -138,6 +138,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
     function postRegister(Request $request, Response $response, $args) {
         global $entityManager;
+
+        $err=false;
+
         $body = $request->getParsedBody();
         $nom = $body['nom'] ?? "";
         $prenom = $body['prenom'] ?? "";
@@ -150,24 +153,57 @@ use Psr\Http\Message\ServerRequestInterface as Request;
         $login = $body ['login'] ?? "";
         $pass = $body ['password'] ?? "";
 
-        $utilisateur = new Utilisateurs;
-        $utilisateur->setNom($nom);
-        $utilisateur->setPrenom($prenom);
-        $utilisateur->setSexe($sexe);
-        $utilisateur->setEmail($email);
-        $utilisateur->setTelephone($telephone);
-        $utilisateur->setAdresse($adresse);
-        $utilisateur->setCodePostal($cp);
-        $utilisateur->setVille($ville);
-        $utilisateur->setLogin($login);
-        $utilisateur->setPassword($pass);
+        if (!preg_match("/[a-zA-Z]{1,20}/",$nom))  {
+            $err=true;
+        }
+        if (!preg_match("/[a-zA-Z]{1,20}/",$prenom))  {
+            $err=true;
+        }
+        if (!preg_match("/[a-zA-Z0-9.]@[a-zA-Z0-9.]{1,20}/",$email))  {
+            $err=true;
+        }
+        if (!preg_match("/[0-9]{10}/",$telephone))  {
+            $err=true;
+        }
+        if (!preg_match("/[a-zA-Z0-9 ]{1,50}/",$adresse))   {
+            $err = true;
+        }
+        if (!preg_match("/[0-9]{50}/",$cp))   {
+            $err = true;
+        }
+        if (!preg_match("/[a-zA-Z]{1,20}/",$ville))  {
+            $err=true;
+        }
+        if (!preg_match("/[a-zA-Z0-9]{1,20}/",$login))   {
+            $err = true;
+        }
+        if (!preg_match("/[a-zA-Z0-9]{1,20}/",$pass))  {
+            $err=true;
+        }
 
-        try {
-            $entityManager->persist($utilisateur);
-            $entityManager->flush();
-        } catch (Exception $e) {
+        if (!$err) {
+            $utilisateur = new Utilisateurs;
+            $utilisateur->setNom($nom);
+            $utilisateur->setPrenom($prenom);
+            $utilisateur->setSexe($sexe);
+            $utilisateur->setEmail($email);
+            $utilisateur->setTelephone($telephone);
+            $utilisateur->setAdresse($adresse);
+            $utilisateur->setCodePostal($cp);
+            $utilisateur->setVille($ville);
+            $utilisateur->setLogin($login);
+            $utilisateur->setPassword($pass);
+
+            try {
+                $entityManager->persist($utilisateur);
+                $entityManager->flush();
+            } catch (Exception $e) {
+                $response = $response->withStatus(500);
+                $response->getBody()->write(json_encode(["message" => $e->getMessage()]));
+            }
+        } else {
             $response = $response->withStatus(500);
-            $response->getBody()->write(json_encode(["message" => $e->getMessage()]));
+            $response->getBody()->write(json_encode(["message" => "Attention, une des entrées est non valide."]));
         }
 
         $response = addHeaders ($response);

@@ -33,6 +33,7 @@ export class RegisterComponent {
       adresse: ['', [Validators.required]],
       codepostal: ['', [Validators.required]],
       ville: ['', [Validators.required]],
+      telephone: ['', [Validators.required]],
     }, { validator: this.matchPassword });
   }
 
@@ -63,7 +64,7 @@ export class RegisterComponent {
 
     this.apiService.register(utilisateur).subscribe({
       next: () => {
-        this.router.navigate([''])
+        this.router.navigate(['/login'])
       },
       error: (error) => {
         this.errorMessage = error.message;

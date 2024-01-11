@@ -49,7 +49,7 @@
 	    $response = $response
 	    ->withHeader("Content-Type", "application/json")
 	    ->withHeader('Access-Control-Expose-Headers', 'Authorization');
-	    //->withHeader('Access-Control-Allow-Origin', ('https://tpbackend.herokuapp.com'))
+	    //->withHeader('Access-Control-Allow-Origin', ('https://projet-d7rt.onrender.com/register'));
 	    //->withHeader('Access-Control-Allow-Headers', 'Content-Type,  Authorization')
 	    //->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
 	    //->withHeader('Access-Control-Expose-Headers', 'Authorization');
