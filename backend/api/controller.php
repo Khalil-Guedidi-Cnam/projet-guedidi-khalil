@@ -182,24 +182,32 @@ use Psr\Http\Message\ServerRequestInterface as Request;
         }
 
         if (!$err) {
-            $utilisateur = new Utilisateurs;
-            $utilisateur->setNom($nom);
-            $utilisateur->setPrenom($prenom);
-            $utilisateur->setSexe($sexe);
-            $utilisateur->setEmail($email);
-            $utilisateur->setTelephone($telephone);
-            $utilisateur->setAdresse($adresse);
-            $utilisateur->setCodePostal($cp);
-            $utilisateur->setVille($ville);
-            $utilisateur->setLogin($login);
-            $utilisateur->setPassword($pass);
 
-            try {
-                $entityManager->persist($utilisateur);
-                $entityManager->flush();
-            } catch (Exception $e) {
-                $response = $response->withStatus(500);
-                $response->getBody()->write(json_encode(["message" => $e->getMessage()]));
+            $existingUser = $entityManager->getRepository(Utilisateurs::class)->findOneBy(['login' => $login]);
+
+            if ($existingUser) {
+                $response = $response->withStatus(409);
+                $response->getBody()->write(json_encode(["message" => "Ce login est déjà utilisé par un autre utilisateur."]));
+            } else {
+                $utilisateur = new Utilisateurs;
+                $utilisateur->setNom($nom);
+                $utilisateur->setPrenom($prenom);
+                $utilisateur->setSexe($sexe);
+                $utilisateur->setEmail($email);
+                $utilisateur->setTelephone($telephone);
+                $utilisateur->setAdresse($adresse);
+                $utilisateur->setCodePostal($cp);
+                $utilisateur->setVille($ville);
+                $utilisateur->setLogin($login);
+                $utilisateur->setPassword($pass);
+
+                try {
+                    $entityManager->persist($utilisateur);
+                    $entityManager->flush();
+                } catch (Exception $e) {
+                    $response = $response->withStatus(500);
+                    $response->getBody()->write(json_encode(["message" => $e->getMessage()]));
+                }
             }
         } else {
             $response = $response->withStatus(500);
