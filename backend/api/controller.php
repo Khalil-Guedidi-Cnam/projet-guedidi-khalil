@@ -168,7 +168,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
         }
         if (!preg_match("/[0-9]{10}/",$telephone))  {
             $err=true;
-            $message .= "L'email ne peut contenir que 10 chiffres. ";
+            $message .= "Le téléphone ne peut contenir que 10 chiffres. ";
 
         }
         if (!preg_match("/[a-zA-Z0-9 ]{1,50}/",$adresse))   {
